@@ -1,0 +1,26 @@
+# Docker compose for an elastic search instance and python app
+version: '3.8'
+services:
+  elasticsearch:
+    image: docker.elastic.co/elasticsearch/elasticsearch:7.10.2
+    container_name: elasticsearch
+    environment:
+      - discovery.type=single-node
+    ports:
+      - 9200:9200
+      - 9300:9300
+    volumes:
+      - elasticsearch_data:/usr/share/elasticsearch/data
+  app:
+    build: ./app
+    container_name: app
+    # command: python app.py
+    # ports:
+      # - 5000:5000
+    volumes:
+      - ./app:/app
+    depends_on:
+      - elasticsearch
+
+volumes:
+  elasticsearch_data:
