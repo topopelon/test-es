@@ -113,7 +113,7 @@ if __name__ == "__main__":
         print("Connected to elasticsearch")
     else:
         print("Could not connect to elasticsearch")
-    indexer = Indexer(es, "test", "data/wiki.es.vec")
+    indexer = Indexer(es, "test", "data/corpus.vec")
 
     while True:
         user_input = input("Load model to memory?:(y/n) ")
