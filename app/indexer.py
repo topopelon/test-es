@@ -43,14 +43,14 @@ class Indexer:
         for news in news:
             doc = {
                 "title": news.title,
-                "embeddings": self.model.encode(news.title)
+                "embeddings": self.model.encode(news.title.lower())
             }
             self.es.index(index=self.index, body=doc)
         print("News indexed.")
 
     def search(self, text):
         # Encode query using model
-        query_embedding = self.model.encode(text)
+        query_embedding = self.model.encode(text.lower())
         # Combine title text search with dense vector search using cosine similarity
         query = {
             "script_score": {
@@ -91,12 +91,25 @@ if __name__ == "__main__":
         News("Machines are used in agriculture to plant, cultivate and harvest crops.", "", ""),
         News("Agriculture is the science and art of cultivating plants and livestock.", "", ""),
         News("Nuts are a rich source of energy and nutrients.", "", ""),
+        News("Tomatoes, lettuce and spinach in greenhouses are grown using hydroponics.", "", ""),
         News("The main agricultural products can be broadly grouped into foods, fibers, fuels and raw materials.", "", ""),
-        News("Walnuts and almonds are the most popular nuts.", "", ""),
+        News("Walnuts and almonds are the most popular food", "", ""),
+        News("Scientifics have developed a modified version of the peanut plant that contains almost no allergens.", "", ""),
         News("Jute is a long, soft, shiny bast fiber that can be spun into coarse, strong threads.", "", ""),
         News("Corn is a grain first domesticated by indigenous peoples in southern Mexico about 10,000 years ago.", "", ""),
         News("Quinoa and oats are grains that are rich in protein.", "", ""),
+        News("Olives tend to be bitter if eaten raw.", "", ""),
+        News("The olive tree, Olea europaea, is an evergreen tree or shrub native to the Mediterranean, Asia, and Africa.", "", ""),
+        News("The most known vineyards are in France, Italy and Spain.", "", ""),
     ]
+
+    # IMPORTANT: Revevant queries
+    # "grape"
+    # "oil" (for some reason it does not work as expected)
+    # "oily"
+    # "nuts"
+    # "vegetables" (should point to "tomatoes, lettuce and spinach" - not working as expected)
+    # "
     indexer.index_news(news)
     while True:
         user_input = input("Write a sentence to search: ")
