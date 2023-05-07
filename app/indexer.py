@@ -81,7 +81,14 @@ if __name__ == "__main__":
         print("Connected to elasticsearch")
     else:
         print("Could not connect to elasticsearch")
-    indexer = Indexer(es, "test", "recobo/agriculture-bert-uncased")
+
+    ## TEST MULTIPLE MODELS
+    # recobo/agri-sentence-transformer -- BEST SO FAR
+    # recobo/agriculture-bert-uncased
+    # Linus4Lyf/test-food
+
+    indexer = Indexer(es, "test", "recobo/agri-sentence-transformer")
+
 
     if indexer.es.indices.exists(index="test"):
         indexer.es.indices.delete(index="test")
